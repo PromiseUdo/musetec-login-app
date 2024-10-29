@@ -9,7 +9,7 @@ import { errorHandler, notFound } from "./middleware/errorMiddleware.js";
 const app = express();
 
 dotenv.config();
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;  
 
 connectDB();
 
@@ -25,6 +25,8 @@ app.get("/", (req, res) => res.send("Server has started"));
 app.use(notFound);
 app.use(errorHandler);
 
-app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
+if (process.env.NODE_ENV === "production") {
+  app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
+}
 
 export default app;
